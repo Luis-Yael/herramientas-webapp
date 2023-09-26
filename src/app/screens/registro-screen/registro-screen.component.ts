@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { UsuariosService } from 'src/app/services/usuarios.service';
+declare var $:any;
 
 @Component({
   selector: 'app-registro-screen',
@@ -22,10 +24,11 @@ export class RegistroScreenComponent implements OnInit {
 
   constructor(
     private location: Location,
+    private usuariosService: UsuariosService
   ) { }
 
   ngOnInit(): void {
-    this.user = this.esquemaUser();
+    this.user = this.usuariosService.esquemaUser();
     console.log("User: ", this.user);
     
   }
@@ -60,7 +63,23 @@ export class RegistroScreenComponent implements OnInit {
   }
 
   public registrar(){
+    //Validar
+    this.errors = [];
 
+    this.errors = this.usuariosService.validarUsuario(this.user);
+    if(!$.isEmptyObject(this.errors)){
+      //Pasa la validación y sale de la función
+      return false;
+    }
+    //Valida la contraseña
+    if(this.user.password == this.user.confirmar_password){
+      //Funcion para registrarse
+      alert("Todo chido vamos a registrar");
+    }else{
+      alert("Las contraseñas no coinciden");
+      this.user.password="";
+      this.user.confirmar_password="";
+    }
   }
 
   //Función para detectar el cambio de fecha
@@ -71,23 +90,6 @@ export class RegistroScreenComponent implements OnInit {
     
     this.user.fecha_nacimiento = event.value.toISOString().split("T")[0];
     console.log("Fecha: ", this.user.fecha_nacimiento);
-  }
-
-  public esquemaUser(){
-    return {
-      'matricula': '',
-      'first_name': '',
-      'last_name': '',
-      'email': '',
-      'password': '',
-      'confirmar_password': '',
-      'fecha_nacimiento': '',
-      'curp': '',
-      'rfc': '',
-      'edad': '',
-      'telefono': '',
-      'ocupacion': '',
-    }
   }
 
 }
