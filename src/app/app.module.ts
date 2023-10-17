@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+//Este import es para los servicios HTTP
+import { HttpClientModule } from '@angular/common/http';
+
 //Componentes
 import { LoginScreenComponent } from './screens/login-screen/login-screen.component';
 import { RegistroScreenComponent } from './screens/registro-screen/registro-screen.component';
@@ -39,6 +42,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = {};
     MatDatepickerModule,
     MatNativeDateModule,
     NgxMaskModule.forRoot(options),
+    HttpClientModule
   ],
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'es-ES'},
